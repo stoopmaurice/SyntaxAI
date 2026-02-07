@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { ICONS, Logo } from '../constants';
-import { db } from '../services/database';
-import { supabase } from '../services/supabase';
-import { User } from '../types';
+import { ICONS, Logo } from '../constants.tsx';
+import { db } from '../services/database.ts';
+import { supabase } from '../services/supabase.ts';
+import { User } from '../types.ts';
 
 interface AuthProps {
   onLogin: () => void;

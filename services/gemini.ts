@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, GenerateContentResponse, Content } from "@google/genai";
-import { ChatMessage } from "../types";
+import { ChatMessage } from "../types.ts";
 
 const API_KEY = process.env.API_KEY;
 

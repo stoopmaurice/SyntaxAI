@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { LANGUAGES, ICONS, Logo } from './constants';
-import { generateCodeStream, updateCodeStream } from './services/gemini';
-import { ScriptResult, GenerationState, ChatMessage } from './types';
-import { db } from './services/database';
-import { supabase } from './services/supabase';
-import CodeBlock from './components/CodeBlock';
-import Auth from './components/Auth';
+import { LANGUAGES, ICONS, Logo } from './constants.tsx';
+import { generateCodeStream, updateCodeStream } from './services/gemini.ts';
+import { ScriptResult, GenerationState, ChatMessage } from './types.ts';
+import { db } from './services/database.ts';
+import { supabase } from './services/supabase.ts';
+import CodeBlock from './components/CodeBlock.tsx';
+import Auth from './components/Auth.tsx';
 
 const MASTER_KEY = 'DENNISdeKAT211012!';
 
@@ -194,7 +194,6 @@ const App: React.FC = () => {
 
   return (
     <div className="h-screen flex bg-[#070510] text-slate-300 overflow-hidden selection:bg-indigo-500/30">
-      {/* Sidebar - Professional Floating Workbench Style */}
       <aside 
         className={`relative z-40 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${isSidebarCollapsed ? 'w-24' : 'w-80'}`}
       >
@@ -289,7 +288,6 @@ const App: React.FC = () => {
         </button>
       </aside>
 
-      {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_#1a103d_0%,_transparent_50%)] pointer-events-none opacity-40"></div>
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] pointer-events-none"></div>
