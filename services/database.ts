@@ -1,5 +1,5 @@
 
-import { User, ScriptResult } from '../types';
+import { User, ScriptResult } from '../types.ts';
 
 const SCRIPTS_KEY = 'syntaxai_local_scripts';
 const USER_PROFILE_KEY = 'syntaxai_user_profile';

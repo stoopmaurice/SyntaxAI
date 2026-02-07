@@ -26,31 +26,45 @@
         .code-font {
             font-family: 'Fira Code', monospace;
         }
+        /* Custom scrollbar for better aesthetics */
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
     </style>
     <script>
-        // Shim voor process.env om crashes op GitHub Pages te voorkomen.
-        // Op GitHub moet je de API_KEY in je repository secrets/variables zetten, 
-        // maar deze shim zorgt dat de rest van de site in ieder geval laadt.
-        window.process = window.process || { env: { API_KEY: "" } };
+        // Polyfill/Shim for process.env
+        window.process = { 
+          env: { 
+            API_KEY: "" 
+          } 
+        };
     </script>
     <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.39.0",
+    "@google/genai": "https://esm.sh/@google/genai@latest",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@latest",
     "react": "https://esm.sh/react@19.0.0",
     "react-dom": "https://esm.sh/react-dom@19.0.0",
     "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
     "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
   }
 }
 </script>
 </head>
 <body>
-    <div id="root"></div>
-    <!-- De index.tsx wordt hier geladen als het startpunt van de applicatie -->
+    <div id="root">
+        <!-- Temporary loading state while JS is booting -->
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background: #070510; color: #4f46e5; font-family: sans-serif; flex-direction: column;">
+            <div style="width: 40px; height: 40px; border: 3px solid rgba(79, 70, 229, 0.1); border-top-color: #4f46e5; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 20px; font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5;">Initializing SyntaxAI...</p>
+        </div>
+    </div>
+    <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
     <script type="module" src="index.tsx"></script>
 </body>
 </html>
