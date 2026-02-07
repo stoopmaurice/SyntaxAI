@@ -14,24 +14,43 @@
             font-family: 'Inter', sans-serif;
             background-color: #070510;
             color: #cbd5e1;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .code-font {
             font-family: 'Fira Code', monospace;
         }
     </style>
-<script type="importmap">
+    <script>
+        // Shim voor process.env om crashes op GitHub Pages te voorkomen.
+        // Op GitHub moet je de API_KEY in je repository secrets/variables zetten, 
+        // maar deze shim zorgt dat de rest van de site in ieder geval laadt.
+        window.process = window.process || { env: { API_KEY: "" } };
+    </script>
+    <script type="importmap">
 {
   "imports": {
     "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.39.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react/jsx-runtime": "https://esm.sh/react@19.0.0/jsx-runtime",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4"
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body>
     <div id="root"></div>
+    <!-- De index.tsx wordt hier geladen als het startpunt van de applicatie -->
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
