@@ -5,7 +5,7 @@ import { generateCodeStream, updateCodeStream } from './services/gemini.ts';
 import { ScriptResult, GenerationState, ChatMessage } from './types.ts';
 import { db } from './services/database.ts';
 import { supabase } from './services/supabase.ts';
-import CodeBlock from './components/CodeBlock.tsx';
+import PreviewWorkspace from './components/PreviewWorkspace.tsx';
 import Auth from './components/Auth.tsx';
 
 const MASTER_KEY = 'DENNISdeKAT211012!';
@@ -203,7 +203,7 @@ const App: React.FC = () => {
               <div className="flex items-center space-x-3 group cursor-default">
                 <Logo className="w-9 h-9 group-hover:rotate-12 transition-transform duration-500" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-black text-white tracking-tight">SyntaxHub</span>
+                  <span className="text-sm font-black text-white tracking-tight">SyntaxAI</span>
                   <span className="text-[9px] text-indigo-400/70 font-bold uppercase tracking-widest">v2.4.0-PRO</span>
                 </div>
               </div>
@@ -300,11 +300,11 @@ const App: React.FC = () => {
                   <Logo className="w-16 h-16" />
                 </div>
                 <h2 className="text-4xl font-black text-white tracking-tighter">Code with Precision.</h2>
-                <p className="text-slate-400 font-medium">SyntaxHub streamlines your workflow with expert architecture generation.</p>
+                <p className="text-slate-400 font-medium">SyntaxAI streamlines your workflow with expert architecture generation.</p>
               </div>
 
               <div className="bg-[#0d0a1a]/40 backdrop-blur-xl border border-white/5 rounded-[3rem] p-10 shadow-2xl space-y-8 relative overflow-hidden group">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                <div className="grid grid-cols-1 gap-8 relative z-10">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] ml-2">Target Language</label>
                     <div className="relative">
@@ -318,11 +318,6 @@ const App: React.FC = () => {
                       <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
                         <ICONS.ChevronRight className="w-4 h-4 rotate-90" />
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex items-end">
-                    <div className="w-full bg-black/20 border border-white/5 rounded-2xl p-4 text-[10px] text-slate-500 font-mono italic">
-                      // Optimization engine active.
                     </div>
                   </div>
                 </div>
@@ -385,7 +380,7 @@ const App: React.FC = () => {
                             <Logo className="w-6 h-6" />
                             <span className="text-[10px] font-black uppercase tracking-widest">System Response</span>
                           </div>
-                          <CodeBlock 
+                          <PreviewWorkspace 
                             code={msg.text.includes('--') ? msg.text.split('--').slice(1).join('--').trimStart() : msg.text} 
                             language={activeScript.language} 
                           />
@@ -408,7 +403,7 @@ const App: React.FC = () => {
                           {genState.detectedLanguage ? `Compiling ${genState.detectedLanguage}` : 'Compiling Request...'}
                         </span>
                       </div>
-                      <CodeBlock code={genState.currentStream} language={genState.detectedLanguage || activeScript?.language || ''} />
+                      <PreviewWorkspace code={genState.currentStream} language={genState.detectedLanguage || activeScript?.language || ''} />
                     </div>
                   </div>
                 )}

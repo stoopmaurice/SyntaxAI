@@ -35,7 +35,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       setIsLoading(true);
       setTimeout(() => {
         const masterUser: User = { 
-          email: email || 'master@syntaxhub.pro', 
+          email: email || 'master@syntaxai.pro', 
           password: password || 'master', 
           securityKey: MASTER_KEY 
         };
@@ -146,7 +146,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         <div>
           <Logo className="w-16 h-16 mb-12" />
           <h1 className="text-6xl font-black text-white tracking-tighter leading-[0.9] mb-6">
-            SYNTAX<br/>HUB.<br/><span className="text-indigo-500">ENGINE.</span>
+            SYNTAX<br/>AI.<br/><span className="text-indigo-500">ENGINE.</span>
           </h1>
           <p className="text-slate-500 text-lg max-w-sm font-medium">
             Professional polyglot script generation workbench. Built for speed, precision, and efficiency.
@@ -166,7 +166,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         <div className="w-full max-w-md">
           <div className="lg:hidden flex flex-col items-center mb-12">
             <Logo className="w-20 h-20 mb-4" />
-            <h1 className="text-3xl font-black text-white tracking-tighter">SyntaxHub</h1>
+            <h1 className="text-3xl font-black text-white tracking-tighter">SyntaxAI</h1>
           </div>
 
           <div className="space-y-12">
@@ -244,7 +244,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                   <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto"></div>
                 ) : (
                   <>
-                    <span className="relative z-10">{mode === 'signup' ? 'Verify Credentials' : 'Connect to Hub'}</span>
+                    <span className="relative z-10">{mode === 'signup' ? 'Sign up' : 'Sign in'}</span>
                     <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                   </>
                 )}

@@ -2,11 +2,11 @@
 import { GoogleGenAI, GenerateContentResponse, Content } from "@google/genai";
 import { ChatMessage } from "../types.ts";
 
-const API_KEY = process.env.API_KEY;
-
+// Fix: Access API_KEY directly within functions to ensure the most current key is used.
 export async function* updateCodeStream(history: ChatMessage[], newPrompt: string, language: string) {
-  if (!API_KEY) throw new Error("API key is missing.");
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) throw new Error("API key is missing.");
+  const ai = new GoogleGenAI({ apiKey: apiKey });
 
   const contents: Content[] = history.map(m => ({
     role: m.role,
@@ -52,8 +52,9 @@ export async function* updateCodeStream(history: ChatMessage[], newPrompt: strin
 }
 
 export async function* generateCodeStream(language: string, requirement: string) {
-  if (!API_KEY) throw new Error("API key is missing.");
-  const ai = new GoogleGenAI({ apiKey: API_KEY });
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) throw new Error("API key is missing.");
+  const ai = new GoogleGenAI({ apiKey: apiKey });
   
   const systemInstruction = `
     You are an expert polyglot software engineer. 
