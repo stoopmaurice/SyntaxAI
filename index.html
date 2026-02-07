@@ -12,59 +12,41 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #070510;
+            background-color: #050508;
             color: #cbd5e1;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            overflow-x: hidden;
         }
         #root {
             min-height: 100vh;
-        }
-        .loader-container {
-            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #070510;
-        }
-        .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(99, 102, 241, 0.1);
-            border-top-color: #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Custom UI support */
-        .code-font { font-family: 'Fira Code', monospace; }
         .custom-scrollbar::-webkit-scrollbar { width: 5px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
     </style>
     <script>
-        // Directe polyfill voor process.env
-        window.process = { 
-            env: { 
-                NODE_ENV: 'production',
+        // Voorkom fouten bij het laden: Definieer process.env globaal.
+        // Netlify injecteert variabelen tijdens build, maar voor runtime via esm.sh 
+        // moeten we zorgen dat de referentie stabiel is.
+        window.process = window.process || {
+            env: {
                 API_KEY: "" 
-            },
-            nextTick: (fn) => setTimeout(fn, 0)
+            }
         };
     </script>
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.3.1",
-    "react-dom": "https://esm.sh/react-dom@18.3.1",
-    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
     "@google/genai": "https://esm.sh/@google/genai@latest",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@latest",
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom": "https://esm.sh/react-dom@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.45.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "react/": "https://esm.sh/react@^19.2.4/"
   }
@@ -73,11 +55,11 @@
 </head>
 <body>
     <div id="root">
-        <div class="loader-container">
-            <div class="loader-spinner"></div>
-            <p style="margin-top: 24px; font-size: 10px; font-weight: 900; letter-spacing: 0.3em; color: #6366f1; text-transform: uppercase;">Initializing Architecture</p>
+        <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background: #050508; color: #4f46e5; font-family: sans-serif; flex-direction: column;">
+            <div style="width: 40px; height: 40px; border: 3px solid rgba(79, 70, 229, 0.1); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <p style="margin-top: 20px; font-size: 10px; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase; color: #6366f1;">Initializing Kernel...</p>
         </div>
     </div>
-    <script type="module" src="./index.tsx"></script>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>

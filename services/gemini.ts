@@ -2,11 +2,13 @@
 import { GoogleGenAI, GenerateContentResponse, Content } from "@google/genai";
 import { ChatMessage } from "../types.ts";
 
-// Fix: Access API_KEY directly within functions to ensure the most current key is used.
 export async function* updateCodeStream(history: ChatMessage[], newPrompt: string, language: string) {
   const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API key is missing.");
-  const ai = new GoogleGenAI({ apiKey: apiKey });
+  if (!apiKey) {
+    throw new Error("API_KEY niet gevonden in process.env. Voeg deze toe aan je Netlify Environment Variables.");
+  }
+  
+  const ai = new GoogleGenAI({ apiKey });
 
   const contents: Content[] = history.map(m => ({
     role: m.role,
@@ -14,36 +16,31 @@ export async function* updateCodeStream(history: ChatMessage[], newPrompt: strin
   }));
 
   const systemInstruction = `
-    You are an expert polyglot software engineer.
-    The user wants to modify their existing ${language} script.
+    Je bent een wereldklasse software engineer met expertise in ALLE programmeertalen (Python, Lua, C++, Java, Rust, JS/TS, PHP, etc.).
+    Doel: Wijzig het bestaande script op basis van de instructies van de gebruiker.
     
-    GUIDELINES:
-    1. Analyze the current code in the conversation history.
-    2. Apply the requested changes (fixes, additions, or optimizations).
-    3. IMPORTANT: Always provide the COMPLETE updated script, not just snippets.
-    4. Maintain comments and best practices.
+    RICHTLIJNEN:
+    1. Lever ALTIJD de volledige, verbeterde code terug.
+    2. Gebruik best practices voor de specifieke taal (${language}).
+    3. Voeg duidelijke commentaren toe aan belangrijke wijzigingen.
     
     OUTPUT FORMAT:
     ${language}--
-    [Updated Code Only]
+    [De volledige code hier]
   `;
 
   try {
     const stream = await ai.models.generateContentStream({
       model: 'gemini-3-pro-preview',
-      contents: [
-        ...contents,
-        { role: 'user', parts: [{ text: newPrompt }] }
-      ],
-      config: {
-        systemInstruction: systemInstruction,
+      contents: [...contents, { role: 'user', parts: [{ text: newPrompt }] }],
+      config: { 
+        systemInstruction, 
         temperature: 0.2,
       },
     });
 
     for await (const chunk of stream) {
-      const response = chunk as GenerateContentResponse;
-      yield response.text;
+      yield (chunk as GenerateContentResponse).text;
     }
   } catch (error) {
     console.error("Gemini Update Error:", error);
@@ -53,36 +50,39 @@ export async function* updateCodeStream(history: ChatMessage[], newPrompt: strin
 
 export async function* generateCodeStream(language: string, requirement: string) {
   const apiKey = process.env.API_KEY;
-  if (!apiKey) throw new Error("API key is missing.");
-  const ai = new GoogleGenAI({ apiKey: apiKey });
+  if (!apiKey) {
+    throw new Error("API_KEY niet gevonden in process.env. Voeg deze toe aan je Netlify Environment Variables.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const systemInstruction = `
-    You are an expert polyglot software engineer. 
-    Task: Generate a high-quality script in "${language}".
+    Je bent een master programmeur. Je kunt scripts schrijven voor elk platform en elke taal (Lua, Python, C++, etc.).
+    Taal: ${language}
     
-    OUTPUT FORMAT:
-    LanguageName--
-    [Code Here]
+    INSTRUCTIES:
+    - Schrijf functionele, schone en veilige code.
+    - Geen introductie tekst, alleen de code.
+    - Gebruik het formaat: TaalNaam--[Code]
     
-    RULES:
-    1. Start with the language name followed by '--'.
-    2. Provide functional, clean, and well-commented code.
-    3. Do not include introductory text, only the code.
+    RICHTLIJNEN:
+    - Voor Lua: Focus op efficiëntie (geschikt voor bijv. Roblox of FiveM indien gevraagd).
+    - Voor Python: Gebruik PEP8 standaarden.
+    - Voor C++: Gebruik moderne standaarden (C++17 of hoger).
   `;
 
   try {
     const stream = await ai.models.generateContentStream({
       model: 'gemini-3-pro-preview',
       contents: [{ parts: [{ text: requirement }] }],
-      config: {
-        systemInstruction: systemInstruction,
-        temperature: 0.7,
+      config: { 
+        systemInstruction, 
+        temperature: 0.4,
       },
     });
 
     for await (const chunk of stream) {
-      const response = chunk as GenerateContentResponse;
-      yield response.text;
+      yield (chunk as GenerateContentResponse).text;
     }
   } catch (error) {
     console.error("Gemini Generation Error:", error);
